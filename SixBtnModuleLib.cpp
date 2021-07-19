@@ -64,6 +64,8 @@ byte SBMReader::readButtons() {
           return btn;
         }
     }
+    
+    lastPressed.btn = btn;
     return BUTTON_NONE;
   }
 }

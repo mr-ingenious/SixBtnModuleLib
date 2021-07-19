@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-const bool __SBM_DBG = true;
+const bool __SBM_DBG = false;
 const unsigned short debounceInterval = 200;
 const unsigned short inputReadInterval = 100;
 
