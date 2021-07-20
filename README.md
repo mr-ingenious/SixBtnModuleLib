@@ -43,4 +43,19 @@ The PCB looks like shown in the image below, which I did not realize. Instead, I
 ![six_button_module_Leiterplatte](https://user-images.githubusercontent.com/82120163/126395160-31a94af6-2b2b-467b-ab51-85cfec6fb9fa.png)
 
 
-## Softwae library
+## Software library
+### Design goals
+1. easy to use
+2. does just one thing: read different pressed pushbuttons via analogread() and provide the correct button pressed
+3. low memory footprint
+4. fast
+
+### Future extensions
+- [ ] possibility to assign callback functions to buttons
+- [ ] possibility to use an arbitrary number of buttons (1 to 8)
+- [ ] add analog PIN mode to constructor
+- [ ] make debouncing timespan configurable
+- [ ] add possibility to distinguish between a pushbutton "click", "retrigger" and "hold"
+- [ ] change defining just one expected digital value instead of defining a range of upper and lower limit for each button; make default upper/ lower limit based on the configured value for each button configurable
+- [ ] training function for all buttons to avoid setting the expected button values manually 
+
