@@ -4,19 +4,25 @@ const int PIN_BUTTONS = 9;
 
 SBMReader inputReader (PIN_BUTTONS, INPUT);
 
-void setupInputs () {
-  Serial.println (F("Inputs setup ..."));
-  
-  Serial.println (F("Inputs setup done."));
-}
-
 void setup() {
   Serial.begin (9600);
+  
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-  Serial.println (F("let's start ..."));
-  setupInputs();
+
+  inputReader.setReadInterval (100);
+  inputReader.setDebounceInterval (200);
+  inputReader.setButtonValueRange (40);
+  
+  Serial.println (F("let's start ...\\settings: "));
+  
+  Serial.print (F("debounce interval: "));
+  Serial.println (inputReader.getDebounceInterval());
+  Serial.print (F("input read interval: "));
+  Serial.println (inputReader.getReadInterval());
+  Serial.print (F("buttons value range: "));
+  Serial.println (inputReader.getButtonValueRange());
 }
 
 // --------------------------------------------------------------------------------
