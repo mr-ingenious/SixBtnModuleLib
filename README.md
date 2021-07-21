@@ -1,7 +1,7 @@
 # SixBtnModuleLib
 
 ## Purpose
-This library is intended for use with an input module containing 6 pushbuttons and resistors forming a net of voltage dividers.
+This arduino library is intended for use with an input module containing 6 pushbuttons and resistors forming a net of voltage dividers.
 
 ## Hardware
 The circuit contains six pushbuttons arranged like a star with a center button ("OK" button) and an extra button on the lower right corner ("BACK" button).
