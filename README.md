@@ -53,7 +53,7 @@ The PCB looks like shown in the image below, which I did not realize. Instead, I
 ### Usage
 The common use of the library is shown in the sketch located in the examples folder.
 
-It is imnportant, that the readButtons() function is cyclically called within the loop() function. In case a button is pressed, the readButtons() method returns a byte value. If no button is pressed, it returns BUTTON_NONE, otherwise one of the following: BUTTON_LEFT, BUTTON_RIGHT, BUTTON_UP, BUTTON_DOWN, BUTTON_CENTER, BUTTON_BACK.
+It is important, that the readButtons() function is cyclically called within the loop() function. Even though it can be called in every loop() cycle, it only executes internally after a defined time span "read interval" has exceeded. In case a button is pressed, the readButtons() method returns a byte value. If no button is pressed, it returns BUTTON_NONE, otherwise one of the following: BUTTON_LEFT, BUTTON_RIGHT, BUTTON_UP, BUTTON_DOWN, BUTTON_CENTER, BUTTON_BACK. 
 
 Readings are performed periodic based on the set value for the button read interval.
 
