@@ -3,9 +3,13 @@
 
 #include "Arduino.h"
 
-const bool __SBM_DBG = false;
-const unsigned short debounceInterval = 200;
-const unsigned short inputReadInterval = 100;
+/* ****************************************************************************
+  default settings
+  ****************************************************************************/
+const bool __SBM_DBG = true;
+const unsigned short __STD_DEBOUNCE_INTERVAL = 200;
+const unsigned short __STD_INPUT_READ_INTERVAL = 100;
+const unsigned short __STD_BVAL_RANGE = 30;
 
 /* ****************************************************************************
   MODULE LAYOUT
@@ -56,14 +60,14 @@ enum sbm_button {BUTTON_NONE = 0,
                  BUTTON_BACK = 32 };
 
 /* ****************************************************************************
-  Button resistance range when using keypad
+  Button resistance middle value
   ****************************************************************************/
-enum buttons_minmax {BLEFT_MIN   = 130, BLEFT_MAX   = 180,
-                     BUP_MIN     = 310, BUP_MAX     = 350,
-                     BCENTER_MIN = 440, BCENTER_MAX = 499,
-                     BDOWN_MIN   = 570, BDOWN_MAX   = 595,
-                     BRIGHT_MIN  = 710, BRIGHT_MAX  = 750,
-                     BBACK_MIN   = 870, BBACK_MAX   = 900 };
+enum buttons_mval {BLEFT_MVAL   = 120,
+                   BUP_MVAL     = 300,
+                   BCENTER_MVAL = 450,
+                   BDOWN_MVAL   = 580,
+                   BRIGHT_MVAL  = 730,
+                   BBACK_MVAL   = 880};
 
 /* ****************************************************************************
   struct for storage of relevant button trigger event information
@@ -83,15 +87,25 @@ class SBMReader {
     unsigned long long lastReadingTs = 0;
     sbm_btnInfo lastPressed;
     int inputPin = -1;
+    unsigned short valueRange = __STD_BVAL_RANGE;
+    unsigned short inputReadInterval = __STD_INPUT_READ_INTERVAL;
+    unsigned short debounceInterval = __STD_DEBOUNCE_INTERVAL;
 
-    byte currentButton (int value);
+    byte identifyButton (int value);
     
   public:
     SBMReader ();
-    SBMReader (int inPin);
-    
-    void setInputPin (int inPin);
+    SBMReader (int inPin, int mode);
+
     byte readButtons ();
+    void setButtonValueRange (unsigned short newRange);
+    unsigned short getButtonValueRange ();
+    
+    void setDebounceInterval (unsigned short newDbInterval);
+    unsigned short getDebounceInterval ();
+    
+    void setReadInterval (unsigned short newReadInterval);
+    unsigned short getReadInterval ();
 };
 
 #endif

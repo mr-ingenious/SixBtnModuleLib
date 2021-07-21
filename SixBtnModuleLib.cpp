@@ -10,27 +10,65 @@ SBMReader::SBMReader () {}
 /* ****************************************************************************
   Constructor:
   ****************************************************************************/
-SBMReader::SBMReader (int inPin) {
+SBMReader::SBMReader (int inPin, int mode) {
     inputPin = inPin;
+    
+    pinMode (inPin, mode);
 }
 
 /* ****************************************************************************
-  setInputPin: sets the input pin
+  setButtonValueRange: provides the ability to change the button value range
   ****************************************************************************/
-void SBMReader::setInputPin (int inPin) {
-  inputPin = inPin;
+void SBMReader::setButtonValueRange (unsigned short newRange) {
+    valueRange = newRange;
 }
 
 /* ****************************************************************************
-  currentButton: returns the currently pressed button
+  getValueRange: returns the currently set button value range
   ****************************************************************************/
-byte SBMReader::currentButton (int val) {
-    if (val > BLEFT_MIN   && val < BLEFT_MAX)   { return BUTTON_LEFT;   }
-    if (val > BRIGHT_MIN  && val < BRIGHT_MAX)  { return BUTTON_RIGHT;  }
-    if (val > BUP_MIN     && val < BUP_MAX)     { return BUTTON_UP;     }
-    if (val > BDOWN_MIN   && val < BDOWN_MAX)   { return BUTTON_DOWN;   }
-    if (val > BCENTER_MIN && val < BCENTER_MAX) { return BUTTON_CENTER; }
-    if (val > BBACK_MIN   && val < BBACK_MAX)   { return BUTTON_BACK;   }
+unsigned short SBMReader::getButtonValueRange () {
+    return valueRange;
+};
+
+/* ****************************************************************************
+  getValueRange: provides the ability to change the debounce interval
+  ****************************************************************************/
+void SBMReader::setDebounceInterval (unsigned short newDbInterval) {
+    debounceInterval = newDbInterval;
+}
+
+/* ****************************************************************************
+  getDebounceInterval: returns the currently set button value range
+  ****************************************************************************/
+unsigned short SBMReader::getDebounceInterval () {
+    return debounceInterval;
+};
+    
+/* ****************************************************************************
+  setReadInterval: provides the ability to change the input read interval
+  ****************************************************************************/
+void SBMReader::setReadInterval (unsigned short newReadInterval) {
+    inputReadInterval = newReadInterval;
+}
+
+/* ****************************************************************************
+  getReadInterval: returns the currently set input read interval
+  ****************************************************************************/
+unsigned short SBMReader::getReadInterval () {
+    return inputReadInterval;
+};
+
+
+/* ****************************************************************************
+  identifyButton: returns the currently pressed button
+  ****************************************************************************/
+byte SBMReader::identifyButton (int val) {
+    if (val > BLEFT_MVAL - valueRange && val < BLEFT_MVAL + valueRange) { return BUTTON_LEFT; }
+    if (val > BRIGHT_MVAL - valueRange && val < BRIGHT_MVAL + valueRange) { return BUTTON_RIGHT; }
+    if (val > BUP_MVAL - valueRange && val < BUP_MVAL + valueRange) { return BUTTON_UP; }
+    if (val > BDOWN_MVAL - valueRange && val < BDOWN_MVAL + valueRange) { return BUTTON_DOWN; }
+    if (val > BCENTER_MVAL - valueRange && val < BCENTER_MVAL + valueRange) { return BUTTON_CENTER; }
+    if (val > BBACK_MVAL - valueRange && val < BBACK_MVAL + valueRange) { return BUTTON_BACK; }
     
     return BUTTON_NONE;
 }
@@ -39,18 +77,18 @@ byte SBMReader::currentButton (int val) {
   readButtons: reads the buttons state and conditionally returns the button
                activated.
   ****************************************************************************/
-byte SBMReader::readButtons() {   
+byte SBMReader::readButtons() {
   const unsigned long long currTs = millis();
   
   if ((currTs - lastReadingTs) >= inputReadInterval) {
     const int readValue = analogRead (inputPin);
-    const byte btn = currentButton (readValue);
+    const byte btn = identifyButton (readValue);
     
     lastReadingTs = currTs;
-    
+          
     if (lastPressed.btn != btn) {
         if ((currTs - lastPressed.changedTs) >= debounceInterval) {
-          // has changed and is debounced
+          // button has changed and is debounced
           if (__SBM_DBG) {
             if (btn != BUTTON_NONE) {
               Serial.print (F("readButtons: readValue: "));
