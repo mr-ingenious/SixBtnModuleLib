@@ -46,7 +46,7 @@ The series resistor Rv embodies the first part of the voltage divider. The other
 
 If a pushbutton has been pressed, a current flows through Rv and the resistor connected to the switch pressed. Example: If switch S3 is pressed, the current flows from Vcc through Rv and R3 to the ground. The J1 pin 2 is connected to the analog pin of the Arduino. The Arduino measures the voltage over resistor R3 and converts the measurement into a value between 0 and 1023. In the example, the voltage over R3 is somewhere around 1.4V (with Vcc = 3.3V). In this case, the arduino analogRead() function would return a value of approx. 440.
 
-![six_button_module_Schaltplan](https://user-images.githubusercontent.com/82120163/126395178-ff381c78-d783-4711-82cd-a7b7c0909d42.png)
+![six_button_module_Schaltplan](https://user-images.githubusercontent.com/82120163/126707433-d13f6130-da60-4d2a-ac31-4a1c8c49374a.png)
 
 The resistors have different values which I chose with the following design goals:
 1. The full resolution of the "analog in" pin is 1024, being capable of detecting differences of up to ~3 mV for each step (with 3.3V Vcc). To make use of the full range and for a reliable detection of the different pushbutton events, I divided the 1024 by 7, which is 146. This means, that pushing each of the pushbuttons returns a specific and roughly equal resistor voltage difference to the neighboring pushbuttons. Additionally, there is also some voltage distance to 0 and 1023.
