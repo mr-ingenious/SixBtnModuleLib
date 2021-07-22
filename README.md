@@ -6,6 +6,34 @@ This arduino library is intended for use with an input module containing 6 pushb
 ## Hardware
 The circuit contains six pushbuttons arranged like a star with a center button ("OK" button) and an extra button on the lower right corner ("BACK" button).
 
+                +------> Ucc (e.g. +3.3 V)
+                |
+                | +----> Ua (connect to analog pin on Arduino)
+                | |
+                | | +--> GND
+                | | |
+             +--O-O-O----------------------------------+
+             |                                         |
+             |               +---------+               |
+             |               |         |               |
+             |               |   UP    |               |
+             |               |         |               |
+             |               +---------+               |
+             |                                         |
+             |  +---------+  +---------+  +---------+  |
+             |  |         |  |         |  |         |  |
+             |  |  LEFT   |  | CENTER  |  |  RIGHT  |  |
+             |  |         |  |         |  |         |  |
+             |  +---------+  +---------+  +---------+  |
+             |                                         |
+             |               +---------+  +---------+  |
+             |               |         |  |         |  |
+             |               |  DOWN   |  |  BACK   |  |
+             |               |         |  |         |  |
+             |               +---------+  +---------+  |
+             |                                         |
+             +-----------------------------------------+
+             
 ### Circuit design
 The circuit has three connectors, see J1:
 1. Vcc for 3,3V (5V would also work)
@@ -22,20 +50,27 @@ The resistors have different values which I chose with the following design goal
 1. The full resolution of the "analog in" pin is 1024, being capable of detecting differences of up to ~3 mV for each step (with 3.3V Vcc). To make use of the full range and for a reliable detection of the different pushbutton events, I divided the 1024 by 7, which is 146. This means, that pushing each of the pushbuttons returns a specific and roughly equal resistor voltage difference to the neighboring pushbuttons. Additionally, there is also some voltage distance to 0 and 1023.
 For example, when pushing button 1, a value of 146 shall be returned by the arduino analogRead() function, pushing button 2 a value of 292 is calculated etc. up to a value of 877 for button 6. 
 
-2. The maximum current floating from Vcc to GND shall not exceed 5 mA. With 3.3V, the overall resistance shall therefore more than 660 ohms.
+2. The maximum current floating from Vcc to GND shall not exceed 5 mA. With 3.3V, the overall resistance must be more than 660 ohms.
 
 The different resistance values for all the resistors can be calculated. I had to adapt the theoretical values with resistors I already had with nearly good resistor voltage differences for each of them, see below: 
 
-| Pushbutton | Resistor | Resistance |
-| ------------- | ------------- | ------------- |
-| -  | Rv | 2.7k Ohms |
-| S1 | R1 | 330 ohms |
-| S2 | R2 | 1071 ohms |
-| S3 | R3 | 2140 ohms |
-| S4 | R4 | 3.6k ohms |
-| S5 | R5 | 7.2k ohms |
-| S6 |  R6 | 20.5k ohms |
+| Pushbutton | Resistor | Resistance [ohms]| Voltage over Rx [V] (1) | measured  (2) |
+| -- | -- | --------| --- | ---|
+| -  | Rv | 2.7k   | 2,95 .. 0.4 |
+| S1 | R1 | 330    | 0.35 | 108 |
+| S2 | R2 | 1071   | 0.92 | 284 |
+| S3 | R3 | 2140   | 1.43 | 445 |
+| S4 | R4 | 3.6k   | 1.86 | 577 |
+| S5 | R5 | 7.2k   | 2.38 | 737 |
+| S6 | R6 | 20.5k  | 2.90 | 901 |
 
+Comments for the table:
+
+(1) The voltage over Rx is the voltage drop between Ua and GND where the current flows through a resistor R1 to R6 depending on the button pressed.
+
+(2) The measured value is the value that is returned by the arduino analogRead() function if the respective button is pressed. 
+
+The calculated values to be measured are quite close to reality, that means, that my real circuit works as expected.
 
 ### PCB
 The PCB looks like shown in the image below, which I did not realize. Instead, I used a perfboard and wired all parts manually.
