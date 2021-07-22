@@ -75,8 +75,7 @@ enum sbm_button_alt {BUTTON_1 = 0,
                      BUTTON_3 = 2,
                      BUTTON_4 = 3,
                      BUTTON_5 = 4,
-                     BUTTON_6 = 5,
-                     BUTTON_NONE = 10 };
+                     BUTTON_6 = 5 };
 
 /* ****************************************************************************
   struct for storage of relevant button trigger event information
