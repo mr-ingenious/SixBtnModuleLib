@@ -1,7 +1,9 @@
 # SixBtnModuleLib
 
 ## Purpose
-This arduino library is intended for use with an input module containing 6 pushbuttons and resistors forming a net of voltage dividers.
+This arduino library is intended for use with an input module containing 6 pushbuttons and resistors forming a net of voltage dividers. The circuit only needs a single analog arduino pin. The button events can be measured with the arduino [analogRead()](https://www.arduino.cc/reference/en/language/functions/analog-io/analogread/) function.
+
+
 
 ## Hardware
 The circuit contains six pushbuttons arranged like a star with a center button ("OK" button) and an extra button on the lower right corner ("BACK" button).
@@ -55,18 +57,18 @@ For example, when pushing button 1, a value of 146 shall be returned by the ardu
 The different resistance values for all the resistors can be calculated. I had to adapt the theoretical values with resistors I already had with nearly good resistor voltage differences for each of them, see below: 
 
 | Pushbutton | Resistor | Resistance [ohms]| Voltage over Rx [V] (1) | measured  (2) |
-| -- | -- | --------| --- | ---|
-| -  | Rv | 2.7k   | 2,95 .. 0.4 |
-| S1 | R1 | 330    | 0.35 | 108 |
-| S2 | R2 | 1071   | 0.92 | 284 |
-| S3 | R3 | 2140   | 1.43 | 445 |
-| S4 | R4 | 3.6k   | 1.86 | 577 |
-| S5 | R5 | 7.2k   | 2.38 | 737 |
-| S6 | R6 | 20.5k  | 2.90 | 901 |
+| -- | --     | --------| --- | ---|
+| -  | Rv     | 2.7k   | 2,95 .. 0.4 |
+| S1 (LEFT)   | R1 | 330    | 0.35 | 108 |
+| S2 (UP)     | R2 | 1071   | 0.92 | 284 |
+| S3 (CENTER) | R3 | 2140   | 1.43 | 445 |
+| S4 (DOWN)   | R4 | 3.6k   | 1.86 | 577 |
+| S5 (RIGHT)  | R5 | 7.2k   | 2.38 | 737 |
+| S6 (BACK)   | R6 | 20.5k  | 2.90 | 901 |
 
 Comments for the table:
 
-(1) The voltage over Rx is the voltage drop between Ua and GND where the current flows through a resistor R1 to R6 depending on the button pressed.
+(1) The voltage over Rx is the voltage drop between Ua and GND where the current flows through a resistor R1 to R6 depending on the button pressed, if Vcc 3.3V is applied to the circuit.
 
 (2) The measured value is the value that is returned by the arduino analogRead() function if the respective button is pressed. 
 
