@@ -15,7 +15,7 @@ void setup() {
   inputReader.setDebounceInterval (200);
   inputReader.setButtonValueRange (40);
   
-  Serial.println (F("let's start ...\\settings: "));
+  Serial.println (F("let's start ...\nsettings: "));
   
   Serial.print (F("debounce interval: "));
   Serial.println (inputReader.getDebounceInterval());
@@ -23,6 +23,13 @@ void setup() {
   Serial.println (inputReader.getReadInterval());
   Serial.print (F("buttons value range: "));
   Serial.println (inputReader.getButtonValueRange());
+
+  for (unsigned short bsel = 0; bsel < BUTTONS_NUM; bsel++) {
+     Serial.print (F("Button #"));
+     Serial.print (bsel);
+     Serial.print (F(" value setting: "));
+     Serial.println (inputReader.getButtonValue(bsel));
+  }
 }
 
 // --------------------------------------------------------------------------------

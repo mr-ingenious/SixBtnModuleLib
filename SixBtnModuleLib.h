@@ -6,10 +6,19 @@
 /* ****************************************************************************
   default settings
   ****************************************************************************/
-const bool __SBM_DBG = true;
+const bool __SBM_DBG = false;
+
 const unsigned short __STD_DEBOUNCE_INTERVAL = 200;
 const unsigned short __STD_INPUT_READ_INTERVAL = 100;
 const unsigned short __STD_BVAL_RANGE = 30;
+
+// default button values
+const unsigned short __BLEFT_MVAL   = 120;
+const unsigned short __BUP_MVAL     = 300;
+const unsigned short __BCENTER_MVAL = 450;
+const unsigned short __BDOWN_MVAL   = 580;
+const unsigned short __BRIGHT_MVAL  = 730;
+const unsigned short __BBACK_MVAL   = 880;
 
 /* ****************************************************************************
   MODULE LAYOUT
@@ -51,23 +60,15 @@ const unsigned short __STD_BVAL_RANGE = 30;
 /* ****************************************************************************
   Button definitions
   ****************************************************************************/
-enum sbm_button {BUTTON_NONE = 0,
-                 BUTTON_LEFT = 1,
-                 BUTTON_RIGHT = 2,
-                 BUTTON_UP = 4,
-                 BUTTON_DOWN = 8,
-                 BUTTON_CENTER = 16,
-                 BUTTON_BACK = 32 };
+const unsigned short BUTTONS_NUM = 6;
 
-/* ****************************************************************************
-  Button resistance middle value
-  ****************************************************************************/
-enum buttons_mval {BLEFT_MVAL   = 120,
-                   BUP_MVAL     = 300,
-                   BCENTER_MVAL = 450,
-                   BDOWN_MVAL   = 580,
-                   BRIGHT_MVAL  = 730,
-                   BBACK_MVAL   = 880};
+enum sbm_button {BUTTON_LEFT = 0,
+                 BUTTON_UP = 1,
+                 BUTTON_CENTER = 2,
+                 BUTTON_DOWN = 3,
+                 BUTTON_RIGHT = 4,
+                 BUTTON_BACK = 5,
+                 BUTTON_NONE = 10 };
 
 /* ****************************************************************************
   struct for storage of relevant button trigger event information
@@ -91,13 +92,21 @@ class SBMReader {
     unsigned short inputReadInterval = __STD_INPUT_READ_INTERVAL;
     unsigned short debounceInterval = __STD_DEBOUNCE_INTERVAL;
 
+    unsigned short buttonValues[BUTTONS_NUM] = {__BLEFT_MVAL,
+                                                __BUP_MVAL,
+                                                __BCENTER_MVAL,
+                                                __BDOWN_MVAL,
+                                                __BRIGHT_MVAL,
+                                                __BBACK_MVAL};
+
     byte identifyButton (int value);
     
   public:
-    SBMReader ();
     SBMReader (int inPin, int mode);
 
-    byte readButtons ();
+    void setButtonValue (byte btn, unsigned short newButtonValue);
+    short getButtonValue (byte btn);
+    
     void setButtonValueRange (unsigned short newRange);
     unsigned short getButtonValueRange ();
     
@@ -106,6 +115,8 @@ class SBMReader {
     
     void setReadInterval (unsigned short newReadInterval);
     unsigned short getReadInterval ();
+    
+    byte readButtons ();
 };
 
 #endif
