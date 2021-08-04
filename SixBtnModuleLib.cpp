@@ -96,6 +96,12 @@ byte SBMReader::readButtons() {
   
   if ((currTs - lastReadingTs) >= inputReadInterval) {
     const int readValue = analogRead (inputPin);
+    
+    if (false) {
+      Serial.print (F("readButtons: readValue: "));
+      Serial.println (readValue);
+    }
+    
     const byte btn = identifyButton (readValue);
     
     lastReadingTs = currTs;
