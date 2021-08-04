@@ -97,4 +97,3 @@ Readings are performed periodic based on the set value for the button read inter
 ### Possible future extensions
 - [ ] possibility to assign callback functions to buttons
 - [ ] add possibility to distinguish between a pushbutton "click", "retrigger" and "hold"
-- [ ] make expected button value for each button configurable
