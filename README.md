@@ -77,7 +77,7 @@ The calculated values to be measured are quite close to reality, that means, tha
 ### PCB
 The PCB looks like shown in the image below, which I did not realize. Instead, I used a perfboard and wired all parts manually.
 
-![six_button_module_Leiterplatte](https://user-images.githubusercontent.com/82120163/126395160-31a94af6-2b2b-467b-ab51-85cfec6fb9fa.png)
+![six_button_module_Leiterplatte](https://user-images.githubusercontent.com/82120163/210110622-2579eb30-373d-4732-b88e-91986ba29a8b.png)
 
 
 ## Software library
